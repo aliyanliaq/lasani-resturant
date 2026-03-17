@@ -1,0 +1,1587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lasani - Authentic Pakistani Cuisine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #D4AF37;
+            --primary-dark: #B8941F;
+            --secondary: #1B4D3E;
+            --secondary-light: #2C7A62;
+            --accent: #C41E3A;
+            --dark: #0F1419;
+            --light: #F5F5DC;
+            --cream: #FFF8DC;
+            --fire: #FF4500;
+            --wheat: #F4A460;
+            --cool-blue: #00CED1;
+            --sweet-pink: #FF69B4;
+            --curry: #D2691E;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(15, 20, 25, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .logo i {
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            padding: 5px 0;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        /* Page Sections */
+        .page-section {
+            display: none;
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+
+        .page-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Loader */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            color: var(--primary);
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: linear-gradient(rgba(15, 20, 25, 0.7), rgba(15, 20, 25, 0.8)),
+                        url('https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=1920') center/cover;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+            padding: 20px;
+            animation: fadeInUp 1s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 3px 3px 6px rgba(0,0,0,0.5), 0 0 20px rgba(212, 175, 55, 0.3); }
+            to { text-shadow: 3px 3px 6px rgba(0,0,0,0.5), 0 0 40px rgba(212, 175, 55, 0.6); }
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: var(--cream);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #D4AF37 0%, #B8941F 100%);
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s;
+            border: 2px solid var(--primary);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+        }
+
+        /* Floating Elements */
+        .floating-spice {
+            position: absolute;
+            font-size: 2rem;
+            color: var(--primary);
+            opacity: 0.3;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(10deg); }
+        }
+
+        /* Categories Section */
+        .categories-section {
+            padding: 100px 5%;
+            background: linear-gradient(135deg, #1B4D3E 0%, #2C7A62 100%);
+            position: relative;
+        }
+
+        .categories-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23D4AF37' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--primary);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .category-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.4s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
+            transition: left 0.6s;
+        }
+
+        .category-card:hover::before {
+            left: 100%;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .category-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--primary);
+            border: 3px solid var(--primary);
+            transition: all 0.3s;
+        }
+
+        .category-card:hover .category-icon {
+            background: var(--primary);
+            color: var(--dark);
+            transform: rotate(360deg) scale(1.1);
+        }
+
+        .category-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: var(--cream);
+        }
+
+        .category-card p {
+            font-size: 0.95rem;
+            color: rgba(245, 245, 220, 0.8);
+            margin-bottom: 15px;
+        }
+
+        .view-btn {
+            display: inline-block;
+            padding: 10px 25px;
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .category-card:hover .view-btn {
+            background: var(--primary);
+            color: var(--dark);
+        }
+
+        /* Menu Page Styles */
+        .menu-banner {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .banner-content {
+            text-align: center;
+            z-index: 2;
+            animation: bannerIn 1s ease;
+        }
+
+        @keyframes bannerIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .banner-icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            animation: iconAnim 2s infinite;
+        }
+
+        @keyframes iconAnim {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .banner-content h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            margin-bottom: 15px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
+        }
+
+        .banner-content p {
+            font-size: 1.3rem;
+            color: var(--cream);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Specific Banner Styles */
+        .main-banner {
+            background: linear-gradient(rgba(15, 20, 25, 0.6), rgba(15, 20, 25, 0.8)),
+                        url('https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=1920') center/cover;
+        }
+        .main-banner .banner-icon { color: var(--curry); animation: simmer 3s infinite; }
+        .main-banner h1 { color: var(--curry); }
+        @keyframes simmer { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+
+        .bbq-banner {
+            background: linear-gradient(rgba(15, 20, 25, 0.6), rgba(15, 20, 25, 0.8)),
+                        url('https://images.unsplash.com/photo-1544025162-d76694265947?w=1920') center/cover;
+        }
+        .bbq-banner .banner-icon { color: var(--fire); animation: firePulse 2s infinite; text-shadow: 0 0 30px rgba(255, 69, 0, 0.5); }
+        .bbq-banner h1 { color: var(--fire); text-shadow: 0 0 20px rgba(255, 69, 0, 0.3); }
+        @keyframes firePulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+
+        .breads-banner {
+            background: linear-gradient(rgba(15, 20, 25, 0.6), rgba(15, 20, 25, 0.8)),
+                        url('https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=1920') center/cover;
+        }
+        .breads-banner .banner-icon { color: var(--wheat); animation: bake 3s infinite; }
+        .breads-banner h1 { color: var(--wheat); }
+        @keyframes bake { 0%, 100% { transform: scale(1) rotate(0deg); } 25% { transform: scale(1.05) rotate(-5deg); } 75% { transform: scale(1.05) rotate(5deg); } }
+
+        .drinks-banner {
+            background: linear-gradient(rgba(15, 20, 25, 0.5), rgba(15, 20, 25, 0.8)),
+                        url('https://images.unsplash.com/photo-1544145945-f90425340c7e?w=1920') center/cover;
+        }
+        .drinks-banner .banner-icon { color: var(--cool-blue); animation: float 3s ease-in-out infinite; text-shadow: 0 0 30px rgba(0, 206, 209, 0.5); }
+        .drinks-banner h1 { color: var(--cool-blue); text-shadow: 0 0 20px rgba(0, 206, 209, 0.3); }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+
+        .desserts-banner {
+            background: linear-gradient(rgba(15, 20, 25, 0.5), rgba(15, 20, 25, 0.8)),
+                        url('https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=1920') center/cover;
+        }
+        .desserts-banner .banner-icon { color: var(--sweet-pink); animation: wobble 2s ease-in-out infinite; text-shadow: 0 0 30px rgba(255, 105, 180, 0.5); }
+        .desserts-banner h1 { color: var(--sweet-pink); text-shadow: 0 0 20px rgba(255, 105, 180, 0.3); }
+        @keyframes wobble { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
+
+        /* Menu Grid */
+        .menu-section {
+            padding: 80px 5%;
+            background: linear-gradient(135deg, #1a1a1a 0%, #0F1419 100%);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .menu-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .menu-image {
+            height: 250px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .menu-card:hover .menu-image img {
+            transform: scale(1.1);
+        }
+
+        .menu-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 8px 16px;
+            font-weight: 600;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .menu-content {
+            padding: 25px;
+        }
+
+        .menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .menu-header h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--cream);
+        }
+
+        .price {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .menu-description {
+            color: rgba(245, 245, 220, 0.8);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .recipe-section {
+            padding: 15px;
+            border-radius: 0 10px 10px 0;
+            margin-top: 15px;
+        }
+
+        .recipe-section h4 {
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .recipe-section p {
+            font-size: 0.85rem;
+            color: rgba(245, 245, 220, 0.7);
+            line-height: 1.5;
+        }
+
+        .spice-level {
+            display: flex;
+            gap: 5px;
+            margin-top: 15px;
+        }
+
+        .spice-level i {
+            color: #FF4500;
+            font-size: 0.9rem;
+        }
+
+        .spice-level i.inactive {
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-top: 10px;
+        }
+
+        /* Page Specific Colors */
+        .page-main .menu-card { border: 2px solid rgba(210, 105, 30, 0.3); }
+        .page-main .menu-card:hover { border-color: var(--curry); box-shadow: 0 20px 40px rgba(210, 105, 30, 0.2); }
+        .page-main .menu-badge { background: var(--curry); color: white; }
+        .page-main .price { color: var(--curry); }
+        .page-main .recipe-section { background: rgba(210, 105, 30, 0.05); border-left: 4px solid var(--curry); }
+        .page-main .recipe-section h4 { color: var(--curry); }
+
+        .page-bbq .menu-card { border: 2px solid rgba(255, 69, 0, 0.3); }
+        .page-bbq .menu-card:hover { border-color: var(--fire); box-shadow: 0 20px 40px rgba(255, 69, 0, 0.2); }
+        .page-bbq .menu-badge { background: var(--fire); color: white; }
+        .page-bbq .price { color: var(--fire); }
+        .page-bbq .recipe-section { background: rgba(255, 69, 0, 0.05); border-left: 4px solid var(--fire); }
+        .page-bbq .recipe-section h4 { color: var(--fire); }
+
+        .page-breads .menu-card { border: 2px solid rgba(244, 164, 96, 0.3); }
+        .page-breads .menu-card:hover { border-color: var(--wheat); box-shadow: 0 20px 40px rgba(244, 164, 96, 0.2); }
+        .page-breads .menu-badge { background: var(--wheat); color: var(--dark); }
+        .page-breads .price { color: var(--wheat); }
+        .page-breads .recipe-section { background: rgba(244, 164, 96, 0.05); border-left: 4px solid var(--wheat); }
+        .page-breads .recipe-section h4 { color: var(--wheat); }
+
+        .page-drinks .menu-card { border: 2px solid rgba(0, 206, 209, 0.3); }
+        .page-drinks .menu-card:hover { border-color: var(--cool-blue); box-shadow: 0 20px 40px rgba(0, 206, 209, 0.2); }
+        .page-drinks .menu-badge { background: var(--cool-blue); color: var(--dark); }
+        .page-drinks .price { color: var(--cool-blue); }
+        .page-drinks .recipe-section { background: rgba(0, 206, 209, 0.05); border-left: 4px solid var(--cool-blue); }
+        .page-drinks .recipe-section h4 { color: var(--cool-blue); }
+
+        .page-desserts .menu-card { border: 2px solid rgba(255, 105, 180, 0.3); }
+        .page-desserts .menu-card:hover { border-color: var(--sweet-pink); box-shadow: 0 20px 40px rgba(255, 105, 180, 0.2); }
+        .page-desserts .menu-badge { background: var(--sweet-pink); color: white; }
+        .page-desserts .price { color: var(--sweet-pink); }
+        .page-desserts .recipe-section { background: rgba(255, 105, 180, 0.05); border-left: 4px solid var(--sweet-pink); }
+        .page-desserts .recipe-section h4 { color: var(--sweet-pink); }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            padding: 50px 5% 20px;
+            border-top: 3px solid var(--primary);
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .social-links a {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(212, 175, 55, 0.1);
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            color: var(--primary);
+            font-size: 1.3rem;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            color: var(--dark);
+            transform: translateY(-5px) rotate(360deg);
+        }
+
+        .copyright {
+            color: rgba(245, 245, 220, 0.6);
+            padding-top: 20px;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1, .banner-content h1 { font-size: 3rem; }
+            .nav-links { display: none; }
+            .section-title { font-size: 2rem; }
+            .menu-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div style="text-align: center;">
+            <div class="loader-logo">Lasani</div>
+            <div style="width: 50px; height: 50px; border: 4px solid rgba(212, 175, 55, 0.3); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin: 20px auto;"></div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <a class="logo" onclick="showPage('home')">
+            <i class="fas fa-utensils"></i>
+            Lasani
+        </a>
+        <ul class="nav-links">
+            <li><a onclick="showPage('home')" id="nav-home">Home</a></li>
+            <li><a onclick="showPage('main')" id="nav-main">Main Course</a></li>
+            <li><a onclick="showPage('bbq')" id="nav-bbq">BBQ & Grill</a></li>
+            <li><a onclick="showPage('breads')" id="nav-breads">Breads</a></li>
+            <li><a onclick="showPage('drinks')" id="nav-drinks">Cold Drinks</a></li>
+            <li><a onclick="showPage('desserts')" id="nav-desserts">Desserts</a></li>
+        </ul>
+    </nav>
+
+    <!-- HOME PAGE -->
+    <section id="home" class="page-section active">
+        <div class="hero">
+            <div class="floating-spice" style="top: 20%; left: 10%; animation-delay: 0s;"><i class="fas fa-pepper-hot"></i></div>
+            <div class="floating-spice" style="top: 60%; right: 15%; animation-delay: 2s;"><i class="fas fa-leaf"></i></div>
+            <div class="floating-spice" style="bottom: 20%; left: 20%; animation-delay: 4s;"><i class="fas fa-mortar-pestle"></i></div>
+            
+            <div class="hero-content">
+                <h1>Lasani</h1>
+                <p>Experience the Authentic Taste of Pakistan</p>
+                <a class="btn" onclick="document.getElementById('categories').scrollIntoView({behavior: 'smooth'})">Explore Categories</a>
+            </div>
+        </div>
+
+        <div class="categories-section" id="categories">
+            <h2 class="section-title">Our Menu Categories</h2>
+            <div class="categories-grid">
+                <div class="category-card" onclick="showPage('main')">
+                    <div class="category-icon">
+                        <i class="fas fa-drumstick-bite"></i>
+                    </div>
+                    <h3>Main Course</h3>
+                    <p>Authentic Pakistani curries, biryanis, and traditional dishes cooked with love and spices.</p>
+                    <span class="view-btn">View Menu <i class="fas fa-arrow-right"></i></span>
+                </div>
+
+                <div class="category-card" onclick="showPage('bbq')">
+                    <div class="category-icon">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <h3>BBQ & Grill</h3>
+                    <p>Smoky, tender meats marinated in traditional spices and grilled to perfection in tandoor.</p>
+                    <span class="view-btn">View Menu <i class="fas fa-arrow-right"></i></span>
+                </div>
+
+                <div class="category-card" onclick="showPage('breads')">
+                    <div class="category-icon">
+                        <i class="fas fa-bread-slice"></i>
+                    </div>
+                    <h3>Breads</h3>
+                    <p>Freshly baked naans, parathas, and tandoori rotis straight from our clay oven.</p>
+                    <span class="view-btn">View Menu <i class="fas fa-arrow-right"></i></span>
+                </div>
+
+                <div class="category-card" onclick="showPage('drinks')">
+                    <div class="category-icon">
+                        <i class="fas fa-glass-whiskey"></i>
+                    </div>
+                    <h3>Cold Drinks</h3>
+                    <p>Refreshing traditional beverages including lassi, rooh afza, and fresh juices.</p>
+                    <span class="view-btn">View Menu <i class="fas fa-arrow-right"></i></span>
+                </div>
+
+                <div class="category-card" onclick="showPage('desserts')">
+                    <div class="category-icon">
+                        <i class="fas fa-ice-cream"></i>
+                    </div>
+                    <h3>Desserts</h3>
+                    <p>Sweet endings with traditional Pakistani desserts and rich, creamy delights.</p>
+                    <span class="view-btn">View Menu <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN COURSE PAGE -->
+    <section id="main" class="page-section page-main">
+        <div class="menu-banner main-banner">
+            <div class="banner-content">
+                <div class="banner-icon">
+                    <i class="fas fa-drumstick-bite"></i>
+                </div>
+                <h1>Main Course</h1>
+                <p>Authentic Pakistani curries and rice dishes, slow-cooked with traditional spices and generations of culinary expertise</p>
+            </div>
+        </div>
+
+        <div class="menu-section">
+            <h2 class="section-title" style="color: var(--curry);">Signature Dishes</h2>
+            <div class="menu-grid">
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=600" alt="Biryani">
+                        <span class="menu-badge">Signature</span>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-header">
+                            <h3>Chicken Biryani</h3>
+                            <span class="price">Rs. 450</span>
+                        </div>
+                        <p class="menu-description">Aromatic basmati rice layered with marinated chicken, saffron, and fried onions. Cooked in sealed pot (dum) for hours.</p>
+                        <div class="spice-level">
+                            <i class="fas fa-pepper-hot"></i>
+                            <i class="fas fa-pepper-hot"></i>
+                            <i class="fas fa-pepper-hot"></i>
+                            <i class="fas fa-pepper-hot inactive"></i>
+                            <i class="fas fa-pepper-hot inactive"></i>
+                        </div>
+                        <div class="recipe-section">
+                            <h4>Dum Pukht Method</h4>
+                            <p>Chicken marinated in yogurt and spices, layered with par-boiled basmati rice, fried onions, and saffron milk. Sealed and cooked on low heat for 2 hours.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=600" alt="Mutton Karahi">
+                        <span class="menu-badge">Chef's Choice</span>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-header">
+                            <h3>Mutton Karahi</h3>
+                            <span class="price">Rs. 1,200</span>
+                        </div>
+                        <p class="menu-description">Tender mutton cooked in traditional wok (karahi) with tomatoes, ginger, garlic, and green chilies. Rich and flavorful.</p>
+                        <div class="spice-level">
+                            <i class="fas fa-pepper-hot"></i>
+                            <i class="fas fa-pepper-hot"></i>
+                            <i class="fas fa-pepper-hot"></i>
+                            <i class="fas fa-pepper-hot"></i>
+                            <i class="fas fa-pepper-hot inactive"></i>
+                        </div>
+                        <div class="recipe-section">
+                            <h4>Karahi Technique</h4>
+                            <p>Mutton slow-cooked in pure ghee with fresh tomatoes, ginger, garlic, and whole spices. Finished with fresh coriander and green chilies.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=600" alt="Butter Chicken">
+                        <span class="menu-badge">Creamy</span>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-header">
+                            <h3>Butter Chicken</h3>
+                            <span class="price">Rs. 650</span>
+                        </div>
+                        <p class="menu-description">Grilled chicken pieces in rich, creamy tomato gravy with butter and fenugreek. Mild and perfect for all palates.</p>
+                        <div class="spice-level">
+                            <i class="fas fa-pepper-hot"></i>
+                            <i class="fas fa-pepper-hot inactive"></i>
+                            <i class="fas fa-pepper-hot inactive"></i>
+                            <i class="fas fa-pepper-hot inactive"></i>
+                            <i class="fas fa-pepper-hot inactive"></i>
+                        </div>
+                        <div class="recipe-section">
+                            <h4>Creamy Gravy</h4>
+                            <p>Char-grilled chicken simmered in tomato-cream gravy with butter, cashew paste, and kasuri methi. Finished with fresh cream.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600" alt="Palak Paneer">
+                        <span class="menu-badge">Vegetarian</span>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-header">
+                            <h3>Palak Paneer</h3>
+                            <span class="price">Rs. 400</span>
+                        </div>
+                        <p class="menu-description">Fresh spinach puree with cottage cheese cubes, tempered with cumin and garlic. Healthy and delicious.</p>
+                        <div class="spice-level">
+                            <i class="fas fa-pepper-hot"></i>
+                            <i class="fas fa-pepper-hot"></i>
+                            <i class="fas fa-pepper-hot inactive"></i>
+                            <i class="fas fa-pepper-hot inactive"></i>
+                            <i class="fas fa-pepper-hot inactive"></i>
+                        </div>
+                        <div class="recipe-section">
+                            <h4>Fresh & Healthy</h4>
+                            <p>Fresh spinach blanched and pureed with onions, tomatoes, and spices. Simmered with paneer cubes and tempered with garlic and cumin.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=600" alt="Nihari">
+                        <span class="menu-badge">Breakfast</span>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-header">
+                            <h3>Nihari</h3>
+                            <span class="price">Rs. 550</span>
+                        </div>
+                        <p class="menu-description">Slow-cooked beef stew with bone marrow, flour-thickened gravy, and aromatic spices. The breakfast of champions.</p>
+                        <div class="spice-level">
+                            <i class="fas fa-pepper-hot"></i>
+                            <i class="fas fa-pepper-hot"></i>
+                            <i class="fas fa-pepper-hot"></i>
+                            <i class="fas fa-pepper-hot"></i>
+                            <i class="fas fa-pepper-hot inactive"></i>
+                        </div>
+                        <div class="recipe-section">
+                            <h4>Overnight Cooking</h4>
+                            <p>Beef shank and bone marrow slow-cooked overnight with wheat flour, spices, and ghee. Garnished with ginger, coriander, and green chilies.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=600" alt="Haleem">
+                        <span class="menu-badge">Ramadan</span>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-header">
+                            <h3>Haleem</h3>
+                            <span class="price">Rs. 350</span>
+                        </div>
+                        <p class="menu-description">Wheat, lentils, and meat slow-cooked for hours and mashed to creamy consistency. Topped with fried onions and lemon.</p>
+                        <div class="spice-level">
+                            <i class="fas fa-pepper-hot"></i>
+                            <i class="fas fa-pepper-hot"></i>
+                            <i class="fas fa-pepper-hot"></i>
+                            <i class="fas fa-pepper-hot inactive"></i>
+                            <i class="fas fa-pepper-hot inactive"></i>
+                        </div>
+                        <div class="recipe-section">
+                            <h4>Hours of Cooking</h4>
+                            <p>Wheat, barley, and lentils cooked with beef and spices for 6-7 hours until mashed. Finished with fried onions, ginger, and lemon.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BBQ & GRILL PAGE -->
+    <section id="bbq" class="page-section page-bbq">
+        <div class="menu-banner bbq-banner">
+            <div class="banner-content">
+                <div class="banner-icon">
+                    <i class="fas fa-fire"></i>
+                </div>
+                <h1>BBQ & Grill</h1>
+                <p>Experience the smoky perfection of authentic Pakistani barbecue, marinated with traditional spices and cooked in clay tandoor</p>
+            </div>
+        </div>
+
+        <div class="menu-section">
+            <h2 class="section-title" style="color: var(--fire);">Our BBQ Selection</h2>
+            <div class="menu-grid">
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=600" alt="Chicken Tikka">
+                        <span class="menu-badge">Chef's Choice</span>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-header">
+                            <h3>Chicken Tikka</h3>
+                            <span class="price">Rs. 350</span>
+                        </div>
+                        <p class="menu-description">Boneless chicken marinated in yogurt and spices, grilled to perfection in tandoor. Served with mint chutney and onion rings.</p>
+                        <div class="spice-level">
+                            <i class="fas fa-pepper-hot"></i>
+                            <i class="fas fa-pepper-hot"></i>
+                            <i class="fas fa-pepper-hot"></i>
+                            <i class="fas fa-pepper-hot inactive"></i>
+                            <i class="fas fa-pepper-hot inactive"></i>
+                        </div>
+                        <div class="recipe-section">
+                            <h4>Secret Marinade</h4>
+                            <p>Yogurt, ginger-garlic paste, red chili powder, garam masala, lemon juice, mustard oil, and our special tikka masala blend. Marinated for 6 hours.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=600" alt="Seekh Kebab">
+                        <span class="menu-badge">Popular</span>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-header">
+                            <h3>Seekh Kebab</h3>
+                            <span class="price">Rs. 400</span>
+                        </div>
+                        <p class="menu-description">Minced beef with onions, herbs, and spices, molded onto skewers and grilled. Served with green chutney.</p>
+                        <div class="spice-level">
+                            <i class="fas fa-pepper-hot"></i>
+                            <i class="fas fa-pepper-hot"></i>
+                            <i class="fas fa-pepper-hot inactive"></i>
+                            <i class="fas fa-pepper-hot inactive"></i>
+                            <i class="fas fa-pepper-hot inactive"></i>
+                        </div>
+                        <div class="recipe-section">
+                            <h4>Preparation</h4>
+                            <p>Ground beef mixed with fried onions, coriander, mint, green chilies, and secret spice blend. Hand-pressed onto skewers and grilled over charcoal.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=600" alt="Malai Boti">
+                        <span class="menu-badge">Creamy</span>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-header">
+                            <h3>Malai Boti</h3>
+                            <span class="price">Rs. 450</span>
+                        </div>
+                        <p class="menu-description">Tender chicken chunks marinated in cream, cheese, and mild spices. A creamy delight for those who prefer less heat.</p>
+                        <div class="spice-level">
+                            <i class="fas fa-pepper-hot"></i>
+                            <i class="fas fa-pepper-hot inactive"></i>
+                            <i class="fas fa-pepper-hot inactive"></i>
+                            <i class="fas fa-pepper-hot inactive"></i>
+                            <i class="fas fa-pepper-hot inactive"></i>
+                        </div>
+                        <div class="recipe-section">
+                            <h4>Creamy Marinade</h4>
+                            <p>Fresh cream, cheese, cashew paste, white pepper, cardamom, and mace. Marinated overnight for maximum tenderness and flavor.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=600" alt="Chapli Kebab">
+                        <span class="menu-badge">Peshawari</span>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-header">
+                            <h3>Chapli Kebab</h3>
+                            <span class="price">Rs. 200</span>
+                        </div>
+                        <p class="menu-description">Flat minced beef patty with crushed spices, pomegranate seeds, and coriander. Crispy outside, juicy inside.</p>
+                        <div class="spice-level">
+                            <i class="fas fa-pepper-hot"></i>
+                            <i class="fas fa-pepper-hot"></i>
+                            <i class="fas fa-pepper-hot"></i>
+                            <i class="fas fa-pepper-hot"></i>
+                            <i class="fas fa-pepper-hot inactive"></i>
+                        </div>
+                        <div class="recipe-section">
+                            <h4>Authentic Recipe</h4>
+                            <p>Minced beef with crushed coriander, cumin, pomegranate seeds, green chilies, and egg. Shallow fried in pure ghee until crispy.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=600" alt="Reshmi Kebab">
+                        <span class="menu-badge">Silky</span>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-header">
+                            <h3>Reshmi Kebab</h3>
+                            <span class="price">Rs. 500</span>
+                        </div>
+                        <p class="menu-description">Silky smooth chicken kebabs made with cream, cashews, and mild spices. Melt-in-your-mouth texture.</p>
+                        <div class="spice-level">
+                            <i class="fas fa-pepper-hot"></i>
+                            <i class="fas fa-pepper-hot inactive"></i>
+                            <i class="fas fa-pepper-hot inactive"></i>
+                            <i class="fas fa-pepper-hot inactive"></i>
+                            <i class="fas fa-pepper-hot inactive"></i>
+                        </div>
+                        <div class="recipe-section">
+                            <h4>Silky Texture Secret</h4>
+                            <p>Fine paste of chicken, cream, cashews, and mild spices. Wrapped around skewers with egg white coating for that signature silky texture.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=600" alt="Mixed Grill">
+                        <span class="menu-badge">For 2</span>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-header">
+                            <h3>Mixed Grill Platter</h3>
+                            <span class="price">Rs. 1,500</span>
+                        </div>
+                        <p class="menu-description">Assortment of chicken tikka, seekh kebab, malai boti, and grilled prawns. Served with naan and salad.</p>
+                        <div class="spice-level">
+                            <i class="fas fa-pepper-hot"></i>
+                            <i class="fas fa-pepper-hot"></i>
+                            <i class="fas fa-pepper-hot"></i>
+                            <i class="fas fa-pepper-hot inactive"></i>
+                            <i class="fas fa-pepper-hot inactive"></i>
+                        </div>
+                        <div class="recipe-section">
+                            <h4>Platter Includes</h4>
+                            <p>4 pcs Chicken Tikka, 4 pcs Seekh Kebab, 4 pcs Malai Boti, 6 Grilled Prawns, 2 Naan, Raita, and Fresh Salad. Perfect for sharing!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BREADS PAGE -->
+    <section id="breads" class="page-section page-breads">
+        <div class="menu-banner breads-banner">
+            <div class="banner-content">
+                <div class="banner-icon">
+                    <i class="fas fa-bread-slice"></i>
+                </div>
+                <h1>Fresh Breads</h1>
+                <p>Hand-stretched and baked fresh in our traditional clay tandoor, delivering the authentic taste of Pakistani bread</p>
+            </div>
+        </div>
+
+        <div class="menu-section">
+            <h2 class="section-title" style="color: var(--wheat);">Tandoor Fresh Breads</h2>
+            <div class="menu-grid">
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=600" alt="Naan">
+                        <span class="menu-badge">Classic</span>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-header">
+                            <h3>Plain Naan</h3>
+                            <span class="price">Rs. 50</span>
+                        </div>
+                        <p class="menu-description">Traditional leavened bread baked in tandoor, soft and fluffy with a slight char. Perfect companion to any curry.</p>
+                        <span class="tag" style="background: rgba(244, 164, 96, 0.2); border: 1px solid var(--wheat); color: var(--wheat);"><i class="fas fa-fire"></i> Fresh from Tandoor</span>
+                        <div class="recipe-section">
+                            <h4>How We Make It</h4>
+                            <p>Refined flour, yeast, yogurt, and milk kneaded to perfect consistency. Hand-stretched and slapped onto hot tandoor walls. Brushed with butter.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600" alt="Garlic Naan">
+                        <span class="menu-badge">Popular</span>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-header">
+                            <h3>Garlic Naan</h3>
+                            <span class="price">Rs. 80</span>
+                        </div>
+                        <p class="menu-description">Naan topped with fresh garlic, coriander, and melted butter. Aromatic and flavorful, pairs perfectly with BBQ.</p>
+                        <span class="tag" style="background: rgba(244, 164, 96, 0.2); border: 1px solid var(--wheat); color: var(--wheat);"><i class="fas fa-fire"></i> Fresh from Tandoor</span>
+                        <div class="recipe-section">
+                            <h4>Garlic Butter Blend</h4>
+                            <p>Fresh garlic minced with coriander, mixed with pure butter. Applied immediately after baking while naan is still hot and sizzling.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600" alt="Roghni Naan">
+                        <span class="menu-badge">Sesame</span>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-header">
+                            <h3>Roghni Naan</h3>
+                            <span class="price">Rs. 90</span>
+                        </div>
+                        <p class="menu-description">Thick, rich naan topped with sesame seeds and nigella seeds. Slightly sweet and perfect with spicy dishes.</p>
+                        <span class="tag" style="background: rgba(244, 164, 96, 0.2); border: 1px solid var(--wheat); color: var(--wheat);"><i class="fas fa-fire"></i> Fresh from Tandoor</span>
+                        <div class="recipe-section">
+                            <h4>Special Dough</h4>
+                            <p>Enriched dough with milk, eggs, and ghee. Topped with sesame and kalonji seeds before baking. Brushed with saffron-infused butter.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600" alt="Paratha">
+                        <span class="menu-badge">Layered</span>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-header">
+                            <h3>Plain Paratha</h3>
+                            <span class="price">Rs. 60</span>
+                        </div>
+                        <p class="menu-description">Flaky, layered whole wheat flatbread cooked on griddle with ghee. Crispy outside, soft inside.</p>
+                        <span class="tag" style="background: rgba(244, 164, 96, 0.2); border: 1px solid var(--wheat); color: var(--wheat);"><i class="fas fa-circle"></i> Griddle Cooked</span>
+                        <div class="recipe-section">
+                            <h4>Layering Technique</h4>
+                            <p>Whole wheat dough rolled and folded multiple times with ghee layers. Cooked on hot tawa until golden brown and flaky.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=600" alt="Sheermal">
+                        <span class="menu-badge">Sweet</span>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-header">
+                            <h3>Sheermal</h3>
+                            <span class="price">Rs. 100</span>
+                        </div>
+                        <p class="menu-description">Saffron-flavored sweet bread with a rich, tender crumb. Traditional accompaniment to nihari and korma.</p>
+                        <span class="tag" style="background: rgba(244, 164, 96, 0.2); border: 1px solid var(--wheat); color: var(--wheat);"><i class="fas fa-fire"></i> Fresh from Tandoor</span>
+                        <div class="recipe-section">
+                            <h4>Saffron Rich</h4>
+                            <p>Milk, saffron, cardamom, and sugar enriched dough. Baked until golden and brushed with saffron milk. Slightly sweet and aromatic.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=600" alt="Tandoori Roti">
+                        <span class="menu-badge">Healthy</span>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-header">
+                            <h3>Tandoori Roti</h3>
+                            <span class="price">Rs. 30</span>
+                        </div>
+                        <p class="menu-description">Whole wheat bread baked in tandoor. Healthy, fiber-rich option with smoky flavor and crispy texture.</p>
+                        <span class="tag" style="background: rgba(244, 164, 96, 0.2); border: 1px solid var(--wheat); color: var(--wheat);"><i class="fas fa-fire"></i> Fresh from Tandoor</span>
+                        <div class="recipe-section">
+                            <h4>Whole Wheat Goodness</h4>
+                            <p>100% whole wheat flour, water, and salt. Hand-flattened and baked directly on tandoor walls. No oil or butter added.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COLD DRINKS PAGE -->
+    <section id="drinks" class="page-section page-drinks">
+        <div class="menu-banner drinks-banner">
+            <div class="banner-content">
+                <div class="banner-icon">
+                    <i class="fas fa-glass-whiskey"></i>
+                </div>
+                <h1>Refreshing Drinks</h1>
+                <p>Traditional Pakistani beverages to cool you down and complement your meal perfectly</p>
+            </div>
+        </div>
+
+        <div class="menu-section">
+            <h2 class="section-title" style="color: var(--cool-blue);">Traditional Beverages</h2>
+            <div class="menu-grid">
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1623065422902-30a2d299bbe4?w=600" alt="Mango Lassi">
+                        <span class="menu-badge">Best Seller</span>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-header">
+                            <h3>Mango Lassi</h3>
+                            <span class="price">Rs. 150</span>
+                        </div>
+                        <p class="menu-description">Thick, creamy yogurt drink blended with ripe mangoes, cardamom, and a touch of sugar. The perfect summer cooler.</p>
+                        <span class="tag" style="background: rgba(0, 206, 209, 0.2); border: 1px solid var(--cool-blue); color: var(--cool-blue);"><i class="fas fa-snowflake"></i> Served Chilled</span>
+                        <div class="recipe-section">
+                            <h4>Preparation</h4>
+                            <p>Fresh yogurt blended with Alphonso mango pulp, cardamom powder, and ice. Garnished with saffron strands and pistachios.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=600" alt="Rooh Afza">
+                        <span class="menu-badge">Classic</span>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-header">
+                            <h3>Rooh Afza</h3>
+                            <span class="price">Rs. 80</span>
+                        </div>
+                        <p class="menu-description">The iconic rose-flavored syrup mixed with water, lemon, and basil seeds. A Ramadan favorite and summer essential.</p>
+                        <span class="tag" style="background: rgba(0, 206, 209, 0.2); border: 1px solid var(--cool-blue); color: var(--cool-blue);"><i class="fas fa-snowflake"></i> Served Chilled</span>
+                        <div class="recipe-section">
+                            <h4>Traditional Mix</h4>
+                            <p>Rooh Afza syrup, chilled water, lemon juice, and soaked basil seeds (tukhmalanga). Served with ice and mint leaves.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1622597467836-f3285f2131b8?w=600" alt="Sugarcane Juice">
+                        <span class="menu-badge">Fresh</span>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-header">
+                            <h3>Sugarcane Juice</h3>
+                            <span class="price">Rs. 100</span>
+                        </div>
+                        <p class="menu-description">Freshly extracted sugarcane juice with a hint of ginger and lemon. Nature's energy drink, served ice cold.</p>
+                        <span class="tag" style="background: rgba(0, 206, 209, 0.2); border: 1px solid var(--cool-blue); color: var(--cool-blue);"><i class="fas fa-snowflake"></i> Fresh Pressed</span>
+                        <div class="recipe-section">
+                            <h4>Fresh Extraction</h4>
+                            <p>Raw sugarcane stalks pressed fresh to order. Mixed with ginger juice, lemon, and black salt. Served immediately with ice.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600" alt="Falooda">
+                        <span class="menu-badge">Dessert Drink</span>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-header">
+                            <h3>Falooda</h3>
+                            <span class="price">Rs. 200</span>
+                        </div>
+                        <p class="menu-description">A royal treat with rose syrup, milk, vermicelli, basil seeds, and ice cream. A meal in itself.</p>
+                        <span class="tag" style="background: rgba(0, 206, 209, 0.2); border: 1px solid var(--cool-blue); color: var(--cool-blue);"><i class="fas fa-snowflake"></i> Served Chilled</span>
+                        <div class="recipe-section">
+                            <h4>Layered Delight</h4>
+                            <p>Layers of soaked basil seeds, falooda sev, rose syrup, chilled milk, and vanilla ice cream. Topped with nuts and jelly.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=600" alt="Kashmiri Chai">
+                        <span class="menu-badge">Pink Tea</span>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-header">
+                            <h3>Kashmiri Chai</h3>
+                            <span class="price">Rs. 120</span>
+                        </div>
+                        <p class="menu-description">Traditional pink tea from Kashmir, made with green tea, milk, and cardamom. Rich, creamy, and aromatic.</p>
+                        <span class="tag" style="background: rgba(0, 206, 209, 0.2); border: 1px solid var(--cool-blue); color: var(--cool-blue);"><i class="fas fa-mug-hot"></i> Served Hot</span>
+                        <div class="recipe-section">
+                            <h4>Pink Perfection</h4>
+                            <p>Special green tea leaves boiled and aerated to create pink color. Added to hot milk with cardamom, almonds, and pistachios.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=600" alt="Lemon Mint">
+                        <span class="menu-badge">Summer Special</span>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-header">
+                            <h3>Lemon Mint Cooler</h3>
+                            <span class="price">Rs. 90</span>
+                        </div>
+                        <p class="menu-description">Refreshing lemonade with fresh mint, black salt, and soda. The ultimate thirst quencher on hot days.</p>
+                        <span class="tag" style="background: rgba(0, 206, 209, 0.2); border: 1px solid var(--cool-blue); color: var(--cool-blue);"><i class="fas fa-snowflake"></i> Served Chilled</span>
+                        <div class="recipe-section">
+                            <h4>Zesty Refreshment</h4>
+                            <p>Fresh lemon juice muddled with mint leaves, black salt, cumin powder, and sugar. Topped with soda water and ice.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DESSERTS PAGE -->
+    <section id="desserts" class="page-section page-desserts">
+        <div class="menu-banner desserts-banner">
+            <div class="banner-content">
+                <div class="banner-icon">
+                    <i class="fas fa-ice-cream"></i>
+                </div>
+                <h1>Sweet Endings</h1>
+                <p>Indulge in traditional Pakistani desserts, rich with flavors of cardamom, saffron, and pure ghee</p>
+            </div>
+        </div>
+
+        <div class="menu-section">
+            <h2 class="section-title" style="color: var(--sweet-pink);">Traditional Desserts</h2>
+            <div class="menu-grid">
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600" alt="Gulab Jamun">
+                        <span class="menu-badge">Hot Favorite</span>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-header">
+                            <h3>Gulab Jamun</h3>
+                            <span class="price">Rs. 150</span>
+                        </div>
+                        <p class="menu-description">Deep-fried milk solids soaked in fragrant sugar syrup with rose water and cardamom. Served warm for ultimate indulgence.</p>
+                        <span class="tag" style="background: rgba(255, 105, 180, 0.2); border: 1px solid var(--sweet-pink); color: var(--sweet-pink);"><i class="fas fa-heart"></i> Served Warm</span>
+                        <div class="recipe-section">
+                            <h4>Preparation Secret</h4>
+                            <p>Milk powder and flour dough fried until golden, then soaked in warm sugar syrup infused with rose water, cardamom, and saffron for 2 hours.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600" alt="Kheer">
+                        <span class="menu-badge">Classic</span>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-header">
+                            <h3>Kheer</h3>
+                            <span class="price">Rs. 120</span>
+                        </div>
+                        <p class="menu-description">Creamy rice pudding slow-cooked with milk, cardamom, and nuts. The ultimate comfort dessert of Pakistan.</p>
+                        <span class="tag" style="background: rgba(255, 105, 180, 0.2); border: 1px solid var(--sweet-pink); color: var(--sweet-pink);"><i class="fas fa-snowflake"></i> Served Chilled</span>
+                        <div class="recipe-section">
+                            <h4>Slow Cooked</h4>
+                            <p>Basmati rice simmered in full-fat milk for 3 hours with cardamom, saffron, and sugar. Garnished with almonds, pistachios, and silver leaf.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600" alt="Gajar Halwa">
+                        <span class="menu-badge">Winter Special</span>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-header">
+                            <h3>Gajar ka Halwa</h3>
+                            <span class="price">Rs. 180</span>
+                        </div>
+                        <p class="menu-description">Rich carrot pudding made with red carrots, milk, ghee, and nuts. A winter delicacy that's worth the wait.</p>
+                        <span class="tag" style="background: rgba(255, 105, 180, 0.2); border: 1px solid var(--sweet-pink); color: var(--sweet-pink);"><i class="fas fa-fire"></i> Served Hot</span>
+                        <div class="recipe-section">
+                            <h4>Winter Delight</h4>
+                            <p>Red carrots grated and slow-cooked in milk and ghee for hours until caramelized. Finished with khoya, nuts, and cardamom.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600" alt="Rasmalai">
+                        <span class="menu-badge">Creamy</span>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-header">
+                            <h3>Rasmalai</h3>
+                            <span class="price">Rs. 200</span>
+                        </div>
+                        <p class="menu-description">Soft cheese patties soaked in saffron-flavored milk, garnished with pistachios. Delicate and luxurious.</p>
+                        <span class="tag" style="background: rgba(255, 105, 180, 0.2); border: 1px solid var(--sweet-pink); color: var(--sweet-pink);"><i class="fas fa-snowflake"></i> Served Chilled</span>
+                        <div class="recipe-section">
+                            <h4>Milk Magic</h4>
+                            <p>Fresh cottage cheese patties poached in sugar syrup, then soaked in thickened saffron milk. Garnished with chopped pistachios and cardamom.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600" alt="Jalebi">
+                        <span class="menu-badge">Crispy</span>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-header">
+                            <h3>Jalebi</h3>
+                            <span class="price">Rs. 100</span>
+                        </div>
+                        <p class="menu-description">Crispy spiral sweets soaked in sugar syrup, best enjoyed with rabri. A festival favorite across Pakistan.</p>
+                        <span class="tag" style="background: rgba(255, 105, 180, 0.2); border: 1px solid var(--sweet-pink); color: var(--sweet-pink);"><i class="fas fa-fire"></i> Fresh & Hot</span>
+                        <div class="recipe-section">
+                            <h4>Crispy Coils</h4>
+                            <p>Fermented batter piped into hot oil in spiral shapes, fried until crispy, then soaked in warm saffron sugar syrup. Best with rabri.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600" alt="Kulfi">
+                        <span class="menu-badge">Ice Cream</span>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-header">
+                            <h3>Pista Kulfi</h3>
+                            <span class="price">Rs. 150</span>
+                        </div>
+                        <p class="menu-description">Traditional Pakistani ice cream made with reduced milk, pistachios, and cardamom. Dense and creamy unlike regular ice cream.</p>
+                        <span class="tag" style="background: rgba(255, 105, 180, 0.2); border: 1px solid var(--sweet-pink); color: var(--sweet-pink);"><i class="fas fa-snowflake"></i> Frozen</span>
+                        <div class="recipe-section">
+                            <h4>Traditional Method</h4>
+                            <p>Full-fat milk reduced to half with sugar, cardamom, and pistachios. Frozen in traditional molds for that authentic dense texture.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-logo">Lasani</div>
+        <div class="social-links">
+            <a><i class="fab fa-facebook-f"></i></a>
+            <a><i class="fab fa-instagram"></i></a>
+            <a><i class="fab fa-twitter"></i></a>
+            <a><i class="fab fa-whatsapp"></i></a>
+        </div>
+        <p style="color: var(--cream); margin-bottom: 20px;">Serving Authentic Pakistani Flavors Since 2010</p>
+        <div class="copyright">
+            <p>&copy; 2026 Lasani Restaurant. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Page Navigation
+        function showPage(pageName) {
+            // Hide all sections
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all nav links
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(pageName).classList.add('active');
+            
+            // Add active class to nav link
+            document.getElementById('nav-' + pageName).classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Loader
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('loader').classList.add('hidden');
+            }, 1500);
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.style.padding = '10px 5%';
+                navbar.style.boxShadow = '0 5px 30px rgba(0,0,0,0.3)';
+            } else {
+                navbar.style.padding = '20px 5%';
+                navbar.style.boxShadow = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
